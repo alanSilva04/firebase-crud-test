@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Container, Navbar, Row, Col, Button } from "react-bootstrap";
-import AddRestaurant from "./components/AddRestaurant";
-import RestaurantsList from "./components/RestaurantsList";
+import AddContact from "./components/AddContact";
+import ContactsList from "./components/ContactList";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [restaurantId, setRestaurantId] = useState("");
+  const [contactId, setContactId] = useState("");
   const [contactForm, showContactForm] = useState(false)
 
-  const getRestaurantIdHandler = (id) => {
+  const getContactIdHandler = (id) => {
     console.log("The ID of document to be edited: ", id);
-    setRestaurantId(id);
+    setContactId(id);
   };
 
   function showForm() {
@@ -35,9 +35,9 @@ function App() {
       <Container style={{ width: "400px"}}>
         <Row>
           <Col>
-            <AddRestaurant 
-              id={restaurantId} 
-              setRestaurantId={setRestaurantId} 
+            <AddContact
+              id={contactId} 
+              setContactId={setContactId} 
               contactForm={contactForm} 
               showForm={showForm}
             />
@@ -47,9 +47,10 @@ function App() {
       <Container>
         <Row>
           <Col>
-            <RestaurantsList 
-              getRestaurantId={getRestaurantIdHandler} 
+            <ContactsList 
+              getContactId={getContactIdHandler} 
               showForm={showForm}
+              contactForm={contactForm}
             />
           </Col>
         </Row>

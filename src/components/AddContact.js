@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Form, Alert, InputGroup, Button } from "react-bootstrap";
-import restaurantDataService from "../services/restaurant-services";
+import contactsDataService from "../services/contact-services";
 
-const AddRestaurant = ({ id, setRestaurantId, contactForm}) => {
+const AddContact = ({ id, setContactId, contactForm}) => {
   const [name, setName] = useState("");
-  const [adress, setAdress] = useState("");
+  const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [relation, setRelation] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
@@ -12,33 +12,34 @@ const AddRestaurant = ({ id, setRestaurantId, contactForm}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    if (name === "" || adress === "" || phone === "" || relation === "") {
+    if (name === "" || address === "" || phone === "" || relation === "") {
       setMessage({ error: true, msg: "All fields are mandatory!" });
       return;
     }
-    const newRestaurant = {
+    const newContact = {
       name,
-      adress,
+      address,
       phone,
       relation,
     };
-    console.log(newRestaurant);
+    console.log(newContact);
 
     try {
       if (id !== undefined && id !== "") {
-        await restaurantDataService.updateRestaurant(id, newRestaurant);
-        setRestaurantId("");
+        await contactsDataService.updateContact(id, newContact);
+        setContactId("");
         setMessage({ error: false, msg: "Updated successfully!" });
       } else {
-        await restaurantDataService.addRestaurant(newRestaurant);
-        setMessage({ error: false, msg: "New Restaurant added successfully!" });
+        await contactsDataService.addContact(newContact);
+        setMessage({ error: false, msg: "New Contact added successfully!" });
       }
     } catch (err) {
-      setMessage({ error: true, msg: err.message });
+      setMessage({ error: true, msg: err.message});
+      console.log(message, "Mensaje")
     }
 
     setName("");
-    setAdress("");
+    setAddress("");
     setPhone("");
     setRelation("");
   };
@@ -46,10 +47,10 @@ const AddRestaurant = ({ id, setRestaurantId, contactForm}) => {
   const editHandler = async () => {
     setMessage("");
     try {
-      const docSnap = await restaurantDataService.getRestaurant(id);
+      const docSnap = await contactsDataService.getContacts(id);
       console.log("the record is :", docSnap.data());
-      setName(docSnap.data().title);
-      setAdress(docSnap.data().adress);
+      setName(docSnap.data().name);
+      setAddress(docSnap.data().address);
       setPhone(docSnap.data().phone);
       setRelation(docSnap.data().relation);
     } catch (err) {
@@ -63,6 +64,7 @@ const AddRestaurant = ({ id, setRestaurantId, contactForm}) => {
       editHandler();
     }
   }, [id]);
+
   return (
     <>
       <div className={contactForm ? "p-4 box" : "notShowing"}>
@@ -77,9 +79,9 @@ const AddRestaurant = ({ id, setRestaurantId, contactForm}) => {
         )}
 
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formRestaurantName">
+          <Form.Group className="mb-3" controlId="formContactName">
             <InputGroup>
-              <InputGroup.Text id="formRestaurantName">Name</InputGroup.Text>
+              <InputGroup.Text id="formContactName">Name</InputGroup.Text>
               <Form.Control
                 type="text"
                 placeholder="Contact Name"
@@ -89,33 +91,33 @@ const AddRestaurant = ({ id, setRestaurantId, contactForm}) => {
             </InputGroup>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formRestaurantAdress">
+          <Form.Group className="mb-3" controlId="formContactPhone">
             <InputGroup>
-              <InputGroup.Text id="formRestaurantAdress">Number</InputGroup.Text>
+              <InputGroup.Text id="formContactPhone">Number</InputGroup.Text>
               <Form.Control
                 type="text"
                 placeholder="Contact Phone Number"
-                value={adress}
-                onChange={(e) => setAdress(e.target.value)}
-              />
-            </InputGroup>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formRestaurantPhone">
-            <InputGroup>
-              <InputGroup.Text id="formRestaurantPhone">Address</InputGroup.Text>
-              <Form.Control
-                type="text"
-                placeholder="Address"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
             </InputGroup>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formRestaurantSchedule">
+          <Form.Group className="mb-3" controlId="formContactAdress">
             <InputGroup>
-              <InputGroup.Text id="formRestaurantSchedule">Relation</InputGroup.Text>
+              <InputGroup.Text id="formContactAdress">Address</InputGroup.Text>
+              <Form.Control
+                type="text"
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </InputGroup>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formContactRelation">
+            <InputGroup>
+              <InputGroup.Text id="formContactRelation">Relation</InputGroup.Text>
               <Form.Control
                 type="text"
                 placeholder="Relation with the contact"
@@ -135,4 +137,4 @@ const AddRestaurant = ({ id, setRestaurantId, contactForm}) => {
   );
 };
 
-export default AddRestaurant;
+export default AddContact;

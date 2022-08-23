@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Form, Alert, InputGroup, Button, ButtonGroup } from "react-bootstrap";
+import { Form, Alert, InputGroup, Button } from "react-bootstrap";
 import restaurantDataService from "../services/restaurant-services";
 
-const AddRestaurant = ({ id, setRestaurantId }) => {
+const AddRestaurant = ({ id, setRestaurantId, contactForm}) => {
   const [name, setName] = useState("");
   const [adress, setAdress] = useState("");
   const [phone, setPhone] = useState("");
-  const [schedule, setSchedule] = useState("");
-  const [status, setStatus] = useState("Open");
-  const [flag, setFlag] = useState(true);
+  const [relation, setRelation] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    if (name === "" || adress === "" || phone === "" || schedule === "") {
+    if (name === "" || adress === "" || phone === "" || relation === "") {
       setMessage({ error: true, msg: "All fields are mandatory!" });
       return;
     }
@@ -22,8 +20,7 @@ const AddRestaurant = ({ id, setRestaurantId }) => {
       name,
       adress,
       phone,
-      schedule,
-      status,
+      relation,
     };
     console.log(newRestaurant);
 
@@ -43,7 +40,7 @@ const AddRestaurant = ({ id, setRestaurantId }) => {
     setName("");
     setAdress("");
     setPhone("");
-    setSchedule("");
+    setRelation("");
   };
 
   const editHandler = async () => {
@@ -54,8 +51,7 @@ const AddRestaurant = ({ id, setRestaurantId }) => {
       setName(docSnap.data().title);
       setAdress(docSnap.data().adress);
       setPhone(docSnap.data().phone);
-      setSchedule(docSnap.data().schedule);
-      setStatus(docSnap.data().status);
+      setRelation(docSnap.data().relation);
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
@@ -69,7 +65,7 @@ const AddRestaurant = ({ id, setRestaurantId }) => {
   }, [id]);
   return (
     <>
-      <div className="p-4 box">
+      <div className={contactForm ? "p-4 box" : "notShowing"}>
         {message?.msg && (
           <Alert
             variant={message?.error ? "danger" : "success"}
@@ -83,10 +79,10 @@ const AddRestaurant = ({ id, setRestaurantId }) => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formRestaurantName">
             <InputGroup>
-              <InputGroup.Text id="formRestaurantName">A</InputGroup.Text>
+              <InputGroup.Text id="formRestaurantName">Name</InputGroup.Text>
               <Form.Control
                 type="text"
-                placeholder="Restaurant Name"
+                placeholder="Contact Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -95,10 +91,10 @@ const AddRestaurant = ({ id, setRestaurantId }) => {
 
           <Form.Group className="mb-3" controlId="formRestaurantAdress">
             <InputGroup>
-              <InputGroup.Text id="formRestaurantAdress">B</InputGroup.Text>
+              <InputGroup.Text id="formRestaurantAdress">Number</InputGroup.Text>
               <Form.Control
                 type="text"
-                placeholder="Restaurant Adress"
+                placeholder="Contact Phone Number"
                 value={adress}
                 onChange={(e) => setAdress(e.target.value)}
               />
@@ -107,10 +103,10 @@ const AddRestaurant = ({ id, setRestaurantId }) => {
 
           <Form.Group className="mb-3" controlId="formRestaurantPhone">
             <InputGroup>
-              <InputGroup.Text id="formRestaurantPhone">C</InputGroup.Text>
+              <InputGroup.Text id="formRestaurantPhone">Address</InputGroup.Text>
               <Form.Control
                 type="text"
-                placeholder="Restaurant Phone Number"
+                placeholder="Address"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
@@ -119,39 +115,15 @@ const AddRestaurant = ({ id, setRestaurantId }) => {
 
           <Form.Group className="mb-3" controlId="formRestaurantSchedule">
             <InputGroup>
-              <InputGroup.Text id="formRestaurantSchedule">D</InputGroup.Text>
+              <InputGroup.Text id="formRestaurantSchedule">Relation</InputGroup.Text>
               <Form.Control
                 type="text"
-                placeholder="Restaurant Schedule"
-                value={schedule}
-                onChange={(e) => setSchedule(e.target.value)}
+                placeholder="Relation with the contact"
+                value={relation}
+                onChange={(e) => setRelation(e.target.value)}
               />
             </InputGroup>
           </Form.Group>
-
-
-          <ButtonGroup aria-label="Basic example" className="mb-3 status-button">
-            <Button
-              disabled={flag}
-              variant="success"
-              onClick={(e) => {
-                setStatus("Open");
-                setFlag(true);
-              }}
-            >
-              Open
-            </Button>
-            <Button
-              variant="danger"
-              disabled={!flag}
-              onClick={(e) => {
-                setStatus("Closed");
-                setFlag(false);
-              }}
-            >
-              Closed
-            </Button>
-          </ButtonGroup>
           <div className="d-grid gap-2">
             <Button variant="primary" type="Submit">
               Add / Update

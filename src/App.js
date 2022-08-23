@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Container, Navbar, Row, Col } from "react-bootstrap";
+import AddRestaurant from "./components/AddRestaurant";
+import RestaurantsList from "./components/RestaurantsList";
+import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  const [restaurantId, setRestaurantId] = useState("");
+
+  const getRestaurantIdHandler = (id) => {
+    console.log("The ID of document to be edited: ", id);
+    setRestaurantId(id);
+  };
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Navbar bg="dark" variant="dark" className="header">
+        <Container>
+          <Navbar.Brand href="#home">Library - Firebase CRUD</Navbar.Brand>
+        </Container>
+      </Navbar>
+      
+      <Container style={{ width: "400px"}}>
+        <Row>
+          <Col>
+            <AddRestaurant id={restaurantId} setRestaurantId={setRestaurantId} />
+          </Col>
+        </Row>
+      </Container>
+      <Container>
+        <Row>
+          <Col>
+            <RestaurantsList getRestaurantId={getRestaurantIdHandler} />
+          </Col>
+        </Row>
+      </Container>
+    </>
+  )
 }
 
 export default App;

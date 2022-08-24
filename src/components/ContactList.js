@@ -5,6 +5,7 @@ import contactsDataService from "../services/contact-services";
 
 const ContactsList = ({ getContactId, showForm, contactForm }) => {
   const [contacts, setContacts] = useState([]);
+  const [search, setSearch] = useState("")
   useEffect(() => {
     getContacts();
   }, []);
@@ -26,16 +27,27 @@ const ContactsList = ({ getContactId, showForm, contactForm }) => {
     }
   }
 
+  const searchContact= (e)=>{
+    e.preventDefault();
+    setContacts(contacts.filter((contacts) =>
+      contacts.name.toLowerCase().includes(search.toLowerCase())
+    ));
+  };
+
   useEffect(() => {
     getContacts()
   }, [contactForm])
 
   return (
     <>
-      <div className="mb-2">
-        <Button variant="dark edit" onClick={getContacts}>
-          Refresh List
-        </Button>
+      <div className="searchBar">
+        <form onChange={searchContact}>
+          <input 
+            type="search" 
+            placeholder="Search for a contact..."
+            onChange={(e) => {setSearch(e.target.value)}}
+          />
+        </form>
       </div>
       <Table striped bordered hover size="sm">
         <thead>
@@ -45,9 +57,6 @@ const ContactsList = ({ getContactId, showForm, contactForm }) => {
             <th>Phone Number</th>
             <th>Address</th>
             <th>Relation</th>
-            <th> 
-              <input type="search" placeholder="Search by name..."/>
-            </th>
           </tr>
         </thead>
         <tbody>

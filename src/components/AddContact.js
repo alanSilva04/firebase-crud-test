@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Alert, InputGroup, Button } from "react-bootstrap";
 import contactsDataService from "../services/contact-services";
 
-const AddContact = ({ id, setContactId, contactForm}) => {
+const AddContact = ({ id, setContactId, contactForm, showForm}) => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
@@ -47,12 +47,12 @@ const AddContact = ({ id, setContactId, contactForm}) => {
   const editHandler = async () => {
     setMessage("");
     try {
-      const docSnap = await contactsDataService.getContacts(id);
-      console.log("the record is :", docSnap.data());
-      setName(docSnap.data().name);
-      setAddress(docSnap.data().address);
-      setPhone(docSnap.data().phone);
-      setRelation(docSnap.data().relation);
+      const contactToEdit = await contactsDataService.getContacts(id);
+      console.log("the record is :", contactToEdit.data());
+      setName(contactToEdit.data().name);
+      setAddress(contactToEdit.data().address);
+      setPhone(contactToEdit.data().phone);
+      setRelation(contactToEdit.data().relation);
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
@@ -77,7 +77,7 @@ const AddContact = ({ id, setContactId, contactForm}) => {
             {message?.msg}
           </Alert>
         )}
-
+        <i className="bi bi-x-circle closeForm" onClick={showForm}></i>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formContactName">
             <InputGroup>
@@ -127,8 +127,8 @@ const AddContact = ({ id, setContactId, contactForm}) => {
             </InputGroup>
           </Form.Group>
           <div className="d-grid gap-2">
-            <Button variant="primary" type="Submit">
-              Add / Update
+            <Button variant="primary" type="Submit" onClick={showForm}>
+              {id ? "Update Contact" : "Add New Contact"}
             </Button>
           </div>
         </Form>

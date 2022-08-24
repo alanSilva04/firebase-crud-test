@@ -24,37 +24,27 @@ function App() {
   
   return (
     <>
-      <Navbar bg="dark" variant="dark" className="header">
+      <Navbar bg="dark" variant="dark" className={contactForm ? "hide header" : "header"}>
         <Container>
           <Navbar.Brand href="#home">CRUD/Bootstrap/Firebase - Agenda Project By Alan Silva</Navbar.Brand>
           <Navbar.Brand><Button onClick={showForm}>Add New Contact</Button></Navbar.Brand>
         </Container>
       </Navbar>
-      
-      
-      <Container style={{ width: "400px"}}>
-        <Row>
-          <Col>
+      <div className={contactForm ? "hide contactList" : "contactList"} >
+            <ContactsList 
+              getContactId={getContactIdHandler} 
+              showForm={showForm}
+              contactForm={contactForm}
+            />
+      </div>
+      <div className="contactForm">
             <AddContact
               id={contactId} 
               setContactId={setContactId} 
               contactForm={contactForm} 
               showForm={showForm}
             />
-          </Col>
-        </Row>
-      </Container>
-      <Container>
-        <Row>
-          <Col>
-            <ContactsList 
-              getContactId={getContactIdHandler} 
-              showForm={showForm}
-              contactForm={contactForm}
-            />
-          </Col>
-        </Row>
-      </Container>
+      </div>
     </>
   )
 }

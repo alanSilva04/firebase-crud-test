@@ -38,7 +38,7 @@ const ContactsList = ({ getContactId, showForm, contactForm }) => {
   }, [contactForm])
 
   return (
-    <>
+    <div className="listContainer">
       <div className="searchBar">
         <form onChange={searchContact}>
           <input 
@@ -87,7 +87,7 @@ const ContactsList = ({ getContactId, showForm, contactForm }) => {
           })}
         </tbody>
       </Table>
-    </>
+    </div>
   );
 };
 

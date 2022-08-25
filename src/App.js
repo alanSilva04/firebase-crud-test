@@ -24,9 +24,9 @@ function App() {
   return (
     <>
       <Navbar bg="dark" variant="dark" className={contactForm ? "hide header" : "header"}>
-        <Container>
-          <Navbar.Brand href="#home">CRUD/Bootstrap/Firebase - Agenda Project By Alan Silva</Navbar.Brand>
-          <Navbar.Brand><Button onClick={showForm}>Add New Contact</Button></Navbar.Brand>
+        <Container className="navbar">
+          <Navbar.Brand href="#home" className="navbarText">CRUD/Bootstrap/Firebase - Agenda Project By Alan Silva</Navbar.Brand>
+          <Navbar.Brand><Button onClick={showForm} className="navbarButton">Add New Contact</Button></Navbar.Brand>
         </Container>
       </Navbar>
 

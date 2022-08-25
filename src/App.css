@@ -61,3 +61,52 @@ table {
   margin-top: -1rem;
   transform: scale(1.5);
 }
+
+@media (max-width: 720px) and (min-height: 360px) {
+  .header {
+    height: 3rem;
+  }
+
+  .navbarContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar 
+
+  .navbar a {
+    font-size: 0.6rem;
+    margin-top: 0.4rem;
+  }
+
+  .navbar Button {
+    font-size: 0.5rem;
+    text-align: center;
+    padding: 0.2rem;
+    margin-left: 3rem;
+  }
+
+  .listContainer {
+    transform: scale(0.5);
+    width: 50rem;
+  }
+
+  .contactList {
+    margin-left: -11.7rem;
+    margin-top: 2rem;
+  }
+
+  .contactForm {
+    transform: scale(0.7);
+    margin-left: 3.8rem;
+    margin-top: 2rem;
+  }
+  
+}

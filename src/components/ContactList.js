@@ -81,7 +81,7 @@ const ContactsList = ({ getContactId, showForm, contactForm }) => {
                 <td>{contact.name}</td>
                 <td>{contact.phone}</td>
                 <td>{contact.email}</td>
-                <td>{contact.address}</td>
+                <td>{contact.address === "" ? "Unknown Address" : contact.address}</td>
               </tr>
             );
           })}

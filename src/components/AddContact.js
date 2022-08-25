@@ -13,10 +13,10 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    if (name === "" || address === "" || phone === "" || email === "") {
+    if (name === ""|| phone === "" || email === "") {
       setMessage({ error: true, msg: "Please put a valid contact!" });
       return;
-    } 
+    }
     const newContact = {
       name,
       address,
@@ -134,10 +134,9 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
               <InputGroup.Text id="formContactAdress">Address</InputGroup.Text>
               <Form.Control
                 type="text"
-                placeholder="Contact Address"
+                placeholder="(Optional)"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                required
               />
             </InputGroup>
           </Form.Group>

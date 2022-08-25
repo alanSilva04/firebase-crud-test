@@ -12,7 +12,6 @@ const ContactsList = ({ getContactId, showForm, contactForm }) => {
 
   const getContacts = async () => {
     const data = await contactsDataService.getAllContacts();
-    console.log(data.docs);
     setContacts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
@@ -55,8 +54,8 @@ const ContactsList = ({ getContactId, showForm, contactForm }) => {
             <th>Actions</th>
             <th>Name</th>
             <th>Phone Number</th>
+            <th>Email</th>
             <th>Address</th>
-            <th>Relation</th>
           </tr>
         </thead>
         <tbody>
@@ -81,8 +80,8 @@ const ContactsList = ({ getContactId, showForm, contactForm }) => {
             </td>
                 <td>{contact.name}</td>
                 <td>{contact.phone}</td>
+                <td>{contact.email}</td>
                 <td>{contact.address}</td>
-                <td>{contact.relation}</td>
               </tr>
             );
           })}

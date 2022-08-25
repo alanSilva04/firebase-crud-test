@@ -1,3 +1,4 @@
+import { stringLength } from "@firebase/util";
 import React, { useState, useEffect } from "react";
 import { Form, Alert, InputGroup, Button } from "react-bootstrap";
 import contactsDataService from "../services/contact-services";
@@ -6,21 +7,21 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [relation, setRelation] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    if (name === "" || address === "" || phone === "" || relation === "") {
-      setMessage({ error: true, msg: "All fields are mandatory!" });
+    if (name === "" || address === "" || phone === "" || email === "") {
+      setMessage({ error: true, msg: "Please put a valid contact!" });
       return;
-    }
+    } 
     const newContact = {
       name,
       address,
       phone,
-      relation,
+      email,
     };
     console.log(newContact);
 
@@ -28,10 +29,10 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
       if (id !== undefined && id !== "") {
         await contactsDataService.updateContact(id, newContact);
         setContactId("");
-        setMessage({ error: false, msg: "Updated successfully!" });
+        showForm()
       } else {
         await contactsDataService.addContact(newContact);
-        setMessage({ error: false, msg: "New Contact added successfully!" });
+        showForm()
       }
     } catch (err) {
       setMessage({ error: true, msg: err.message});
@@ -41,8 +42,9 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
     setName("");
     setAddress("");
     setPhone("");
-    setRelation("");
+    setEmail("");
   };
+
 
   const editHandler = async () => {
     setMessage("");
@@ -52,7 +54,7 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
       setName(contactToEdit.data().name);
       setAddress(contactToEdit.data().address);
       setPhone(contactToEdit.data().phone);
-      setRelation(contactToEdit.data().relation);
+      setEmail(contactToEdit.data().email);
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
@@ -65,6 +67,15 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
     }
   }, [id]);
 
+  useEffect(() => {
+    if(contactForm === false) {
+      console.log("false");
+      setContactId("")
+    }
+  }, [showForm] )
+
+
+  
   return (
     <>
       <div className={contactForm ? "p-4 box" : "notShowing"}>
@@ -87,6 +98,7 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
                 placeholder="Contact Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required
               />
             </InputGroup>
           </Form.Group>
@@ -95,10 +107,24 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
             <InputGroup>
               <InputGroup.Text id="formContactPhone">Number</InputGroup.Text>
               <Form.Control
-                type="text"
-                placeholder="Contact Phone Number"
+                type="number"
+                placeholder="Contact Phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </InputGroup>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formContactEmail">
+            <InputGroup>
+              <InputGroup.Text id="formContactEmail">Email</InputGroup.Text>
+              <Form.Control
+                type="email"
+                placeholder="Contact Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </InputGroup>
           </Form.Group>
@@ -108,26 +134,15 @@ const AddContact = ({ id, setContactId, contactForm, showForm}) => {
               <InputGroup.Text id="formContactAdress">Address</InputGroup.Text>
               <Form.Control
                 type="text"
-                placeholder="Address"
+                placeholder="Contact Address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-              />
-            </InputGroup>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formContactRelation">
-            <InputGroup>
-              <InputGroup.Text id="formContactRelation">Relation</InputGroup.Text>
-              <Form.Control
-                type="text"
-                placeholder="Relation with the contact"
-                value={relation}
-                onChange={(e) => setRelation(e.target.value)}
+                required
               />
             </InputGroup>
           </Form.Group>
           <div className="d-grid gap-2">
-            <Button variant="primary" type="Submit" onClick={showForm}>
+            <Button variant="primary" type="Submit">
               {id ? "Update Contact" : "Add New Contact"}
             </Button>
           </div>

@@ -10,7 +10,6 @@ function App() {
   const [contactForm, showContactForm] = useState(false)
 
   const getContactIdHandler = (id) => {
-    console.log("The ID of document to be edited: ", id);
     setContactId(id);
   };
 
@@ -30,13 +29,7 @@ function App() {
           <Navbar.Brand><Button onClick={showForm}>Add New Contact</Button></Navbar.Brand>
         </Container>
       </Navbar>
-      <div className={contactForm ? "hide contactList" : "contactList"} >
-            <ContactsList 
-              getContactId={getContactIdHandler} 
-              showForm={showForm}
-              contactForm={contactForm}
-            />
-      </div>
+
       <div className="contactForm">
             <AddContact
               id={contactId} 
@@ -45,6 +38,15 @@ function App() {
               showForm={showForm}
             />
       </div>
+
+      <div className={contactForm ? "hide contactList" : "contactList"} >
+            <ContactsList 
+              getContactId={getContactIdHandler} 
+              showForm={showForm}
+              contactForm={contactForm}
+            />
+      </div>
+      
     </>
   )
 }

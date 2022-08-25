@@ -63,6 +63,8 @@ table {
 }
 
 @media (max-width: 720px) and (min-height: 360px) {
+  * 
+
   .header {
     height: 3rem;
   }
@@ -78,8 +80,6 @@ table {
     justify-content: center;
     align-items: center;
   }
-
-  .navbar 
 
   .navbar a {
     font-size: 0.6rem;
@@ -99,8 +99,10 @@ table {
   }
 
   .contactList {
-    margin-left: -11.7rem;
+    margin-left: -12rem;
     margin-top: 2rem;
+    width: 100vh;
+    padding: auto;
   }
 
   .contactForm {
